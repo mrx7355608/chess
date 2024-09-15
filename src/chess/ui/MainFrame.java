@@ -20,6 +20,7 @@ public class MainFrame extends JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        this.add(new BoardPanel());
+        BoardPanel board = BoardPanel.getInstance();
+        this.add(board);
     }
 }

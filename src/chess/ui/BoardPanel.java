@@ -21,8 +21,17 @@ public class BoardPanel extends JPanel {
     private final int TILE_SIZE = 60;
     private Piece[][] pieces = new Piece[8][8];
     private ArrayList<Move> moves;
+    
+    private static BoardPanel instance;
+    
+    public static BoardPanel getInstance() {
+        if (instance == null){
+            instance = new BoardPanel();
+        }
+        return instance;
+    }
 
-    public BoardPanel() {
+    private BoardPanel() {
         try {
             MouseEventHandler mv = new MouseEventHandler(this);
             moves = new ArrayList();
@@ -83,9 +92,44 @@ public class BoardPanel extends JPanel {
     public void highlightMoves(Piece piece) {
         this.moves = piece.findMoves();
     }
-    
+
     public void clearMoves() {
         this.moves.clear();
+    }
+    
+    private boolean containsMove(Move move) {
+        for (Move m : moves) {
+            if (m.toRow == move.toRow && m.toCol == move.toCol) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    public boolean isValidMove(Move move) {
+        // 1. If the selected move is not in the "moves" array (which is calculated
+        // by the piece class) then return false.
+        if (!this.containsMove(move)) {
+            return false;
+        }
+
+        // 2. If the move is in the array, then get the piece at that position
+        Piece piece = this.pieces[move.toRow][move.toCol];
+
+        // 3. If the position does not have any piece, then return true
+        if (piece == null) {
+            return true;
+        }
+
+        // 4. If there's a piece, then check if it's enemy piece or not.
+        // If it's enemy piece return true.
+        else if (piece.color.equals(move.piece.color) == false) {
+            return true;
+        }
+
+        // 5. Otherwise, return false
+        return false;
     }
 
     @Override
@@ -106,7 +150,7 @@ public class BoardPanel extends JPanel {
             g.setColor(Color.yellow);
             g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
         }
-        
+
         // Draw pieces
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
