@@ -99,6 +99,14 @@ public class BoardPanel extends JPanel {
             }
         }
 
+        // Highlight moves (if any)
+        for (Move move : moves) {
+            int x = move.toCol * TILE_SIZE;
+            int y = move.toRow * TILE_SIZE;
+            g.setColor(Color.yellow);
+            g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
+        }
+        
         // Draw pieces
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -107,14 +115,6 @@ public class BoardPanel extends JPanel {
                     piece.draw(g);
                 }
             }
-        }
-
-        // Highlight moves
-        for (Move move : moves) {
-            int x = move.toCol * TILE_SIZE;
-            int y = move.toRow * TILE_SIZE;
-            g.setColor(Color.yellow);
-            g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
         }
     }
 }
