@@ -23,12 +23,12 @@ public class Rook extends Piece {
 
         for (int i = 0; i < 8; i++) {
             if (i == this.row) continue;
-            moves.add(new Move(i, this.col));
+            moves.add(new Move(i, this.col, this));
         }
         
         for (int i = 0; i < 8; i++) {
             if (i == this.col) continue;
-            moves.add(new Move(this.row, i));
+            moves.add(new Move(this.row, i, this));
         }
         
         return moves;

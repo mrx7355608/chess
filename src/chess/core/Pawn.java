@@ -27,14 +27,14 @@ public class Pawn extends Piece {
             int toRow1 = color.equals("black") ? this.row + 1 : this.row - 1;
             int toRow2 = color.equals("black") ? this.row + 2 : this.row - 2;
 
-            Move m1 = new Move(toRow1, this.col);
-            Move m2 = new Move(toRow2, this.col);
+            Move m1 = new Move(toRow1, this.col, this);
+            Move m2 = new Move(toRow2, this.col, this);
 
             moves.add(m1);
             moves.add(m2);
         } else {
             int toRow1 = color.equals("black") ? this.row + 1 : this.row - 1;
-            Move m1 = new Move(toRow1, this.col);
+            Move m1 = new Move(toRow1, this.col, this);
             moves.add(m1);
         }
 

@@ -11,10 +11,12 @@ package chess.core;
 public class Move {
     public int toRow;
     public int toCol;
+    public Piece piece;
 
-    public Move(int toRow, int toCol) {
+    public Move(int toRow, int toCol, Piece piece) {
         this.toRow = toRow;
         this.toCol = toCol;
+        this.piece = piece;
     }
     
 }
