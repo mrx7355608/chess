@@ -4,8 +4,8 @@
  */
 package chess.ui;
 
-import chess.core.Move;
-import chess.core.Piece;
+import models.pieces.Move;
+import models.pieces.Piece;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -14,16 +14,13 @@ import java.awt.event.MouseEvent;
  * @author fawad
  */
 public class MouseEventHandler extends MouseAdapter {
-
-    private final BoardPanel board;
     private Piece piece;
     private int fromRow;
     private int fromCol;
     private int toRow;
     private int toCol;
 
-    public MouseEventHandler(BoardPanel board) {
-        this.board = board;
+    public MouseEventHandler() {
         this.piece = null;
     }
 
@@ -35,15 +32,17 @@ public class MouseEventHandler extends MouseAdapter {
     public void mousePressed(MouseEvent me) {
         int row = me.getY() / 60;
         int col = me.getX() / 60;
-        
+
         Piece pieceExists = this.board.getPiece(row, col);
-        if (pieceExists == null) return;
-        
+        if (pieceExists == null) {
+            return;
+        }
+
         this.piece = pieceExists;
         this.fromRow = row;
         this.fromCol = col;
         this.board.highlightMoves(piece);
-        
+
     }
 
     @Override
@@ -62,7 +61,7 @@ public class MouseEventHandler extends MouseAdapter {
     public void mouseReleased(MouseEvent me) {
         this.toRow = me.getY() / 60;
         this.toCol = me.getX() / 60;
-        
+
         Move move = new Move(toRow, toCol, piece);
 
         if (this.piece != null) {

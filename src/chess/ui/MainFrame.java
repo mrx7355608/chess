@@ -4,23 +4,31 @@
  */
 package chess.ui;
 
+import controllers.BoardController;
 import javax.swing.JFrame;
+import models.board.BoardModel;
+import views.BoardView;
 
 /**
  *
  * @author fawad
  */
 public class MainFrame extends JFrame {
+
     private final int GAME_HEIGHT = 600;
     private final int GAME_WIDTH = 600;
-    
+
     public MainFrame() {
+        BoardModel model = new BoardModel();
+        BoardView view = new BoardView(model);
+        BoardController controller = new BoardController(model, view);
+        
         this.setTitle("Chess");
         this.setSize(GAME_WIDTH, GAME_HEIGHT);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        BoardPanel board = BoardPanel.getInstance();
-        this.add(board);
+        this.add(view);
     }
+
+    
 }

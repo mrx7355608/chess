@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package chess.core;
+package models.pieces;
 
+import chess.ui.BoardPanel;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -45,7 +46,7 @@ public class Piece {
         }
     }
     
-    public ArrayList<Move> findMoves() {
+    public ArrayList<Move> findMoves(Piece[][] board) {
         return new ArrayList();
     };
     

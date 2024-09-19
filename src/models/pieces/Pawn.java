@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package chess.core;
+package models.pieces;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public ArrayList<Move> findMoves() {
+    public ArrayList<Move> findMoves(Piece[][] board) {
         ArrayList<Move> moves = new ArrayList();
 
         if (isFirstMove) {
