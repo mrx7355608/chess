@@ -45,7 +45,6 @@ public class BoardView extends JPanel {
 
         // Highlight moves (if any)
         if (highlightMoves.isEmpty() == false) {
-            System.out.println(highlightMoves.size());
             for (Move move : highlightMoves) {
                 int x = move.toCol * TILE_SIZE;
                 int y = move.toRow * TILE_SIZE;

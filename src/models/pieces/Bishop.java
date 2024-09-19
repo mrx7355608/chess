@@ -26,50 +26,46 @@ public class Bishop extends Piece {
         int nextCol = this.col;
         for (int i = this.row - 1; i >= 0; i--) {
             nextCol -= 1;
-            
-            // 1. If move goes out of board, ignore this move
-            if (nextCol < 0) continue;
-            
-            // 2. If their is a piece at this new position and it is of same
-            // color as current piece, then break this loop to stop further
-            // calculations of moves
-            Piece p = board[i][nextCol];
-            if (p != null) {
-                if (p.color.equals(this.color)) {
-                    break;
-                } else {
-                    moves.add(new Move(i, nextCol, this));
-                    break;
-                }
+
+            // 1. If move goes out of board, ignore it
+            if (nextCol < 0) {
+                continue;
             }
-            
-            moves.add(new Move(i, nextCol, this));
+
+            // 2. If there is no piece at this new position, add it in moves
+            Piece p = board[i][nextCol];
+            if (p == null) {
+                moves.add(new Move(i, nextCol, this));
+            } else {
+                // 3. If their is a piece at this new position and it is an
+                // enemy piece, then add it in move and break this loop,because
+                // on encountering a piece you cannot go further than that
+                if (p.color.equals(this.color) == false) {
+                    moves.add(new Move(i, nextCol, this));
+                }
+                break;
+            }
         }
-        
+
         // Make moves for upper right diagonal
         nextCol = this.col;
         for (int i = this.row - 1; i >= 0; i--) {
             nextCol += 1;
-            
-            // 1. If move goes out of board, ignore this move
-            if (nextCol > 7) continue;
-            
-            // 2. If their is a piece at this new position and it is of same
-            // color as current piece, then break this loop to stop further
-            // calculations of moves
-            Piece p = board[i][nextCol];
-            if (p != null) {
-                if (p.color.equals(this.color)) {
-                    break;
-                } else {
-                    moves.add(new Move(i, nextCol, this));
-                    break;
-                }
+            if (nextCol > 7) {
+                continue;
             }
-            
-            moves.add(new Move(i, nextCol, this));
+
+            Piece p = board[i][nextCol];
+            if (p == null) {
+                moves.add(new Move(i, nextCol, this));
+            } else {
+                if (p.color.equals(this.color) == false) {
+                    moves.add(new Move(i, nextCol, this));
+                }
+                break;
+            }
         }
-        
+
         // Make moves for lower left diagonal
         nextCol = this.col;
         for (int i = this.row + 1; i < 8; i++) {
@@ -77,44 +73,36 @@ public class Bishop extends Piece {
             if (nextCol < 0) {
                 continue;
             }
-            
+
             Piece p = board[i][nextCol];
-            if (p != null) {
-                if (p.color.equals(this.color)) {
-                    break;
-                } else {
+            if (p == null) {
+                moves.add(new Move(i, nextCol, this));
+            } else {
+                if (p.color.equals(this.color) == false) {
                     moves.add(new Move(i, nextCol, this));
-                    break;
                 }
+                break;
             }
-            
-            moves.add(new Move(i, nextCol, this));
         }
-        
+
         // Make moves for lower right diagonal
         nextCol = this.col;
         for (int i = this.row + 1; i < 8; i++) {
             nextCol += 1;
-            
-            // 1. If move goes out of board, ignore this move
-            if (nextCol > 7) continue;
-            
-            // 2. If their is a piece at this new position and it is of same
-            // color as current piece, then break this loop to stop further
-            // calculations of moves
-            Piece p = board[i][nextCol];
-            if (p != null) {
-                if (p.color.equals(this.color)) {
-                    break;
-                } else {
-                    moves.add(new Move(i, nextCol, this));
-                    break;
-                }
+            if (nextCol > 7) {
+                continue;
             }
-            
-            moves.add(new Move(i, nextCol, this));
+
+            Piece p = board[i][nextCol];
+            if (p == null) {
+                moves.add(new Move(i, nextCol, this));
+            } else {
+                if (p.color.equals(this.color) == false) {
+                    moves.add(new Move(i, nextCol, this));
+                }
+                break;
+            }
         }
-       
 
         return moves;
     }
