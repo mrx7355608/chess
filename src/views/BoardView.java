@@ -7,6 +7,7 @@ package views;
 import controllers.InputHandler;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 import models.board.BoardModel;
 import models.pieces.Move;
@@ -20,6 +21,7 @@ public class BoardView extends JPanel {
 
     private final int TILE_SIZE = 60;
     private final BoardModel boardModel;
+    private ArrayList<Move> highlightMoves = new ArrayList();
 
     public BoardView(BoardModel model) {
         this.boardModel = model;
@@ -42,12 +44,15 @@ public class BoardView extends JPanel {
         }
 
         // Highlight moves (if any)
-//        for (Move move : moves) {
-//            int x = move.toCol * TILE_SIZE;
-//            int y = move.toRow * TILE_SIZE;
-//            g.setColor(Color.yellow);
-//            g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
-//        }
+        if (highlightMoves.isEmpty() == false) {
+            for (Move move : highlightMoves) {
+                int x = move.toCol * TILE_SIZE;
+                int y = move.toRow * TILE_SIZE;
+                g.setColor(Color.yellow);
+                g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
+            }
+        }
+
         // Draw pieces
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -57,5 +62,9 @@ public class BoardView extends JPanel {
                 }
             }
         }
+    }
+
+    public void setHighlightMoves(ArrayList<Move> highlightMoves) {
+        this.highlightMoves = highlightMoves;
     }
 }

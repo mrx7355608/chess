@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
  * @author fawad
  */
 public class InputHandler extends MouseAdapter {
+
     private Piece piece;
     private int fromRow;
     private int fromCol;
@@ -34,18 +35,14 @@ public class InputHandler extends MouseAdapter {
     public void mousePressed(MouseEvent me) {
         int row = me.getY() / 60;
         int col = me.getX() / 60;
-        
-        System.out.println(row + " x " + col);
 
-//        Piece pieceExists = this.boardController.getPiece(row, col);
-//        if (pieceExists == null) {
-//            return;
-//        }
-//
-//        this.piece = pieceExists;
-//        this.fromRow = row;
-//        this.fromCol = col;
-//        this.boardController.highlightMoves(piece);
+        this.piece = this.boardController.getPiece(row, col);
+
+        if (this.piece != null) {
+            this.fromRow = row;
+            this.fromCol = col;
+            this.boardController.highlightPieceMoves(row, col);
+        }
 
     }
 
@@ -53,42 +50,40 @@ public class InputHandler extends MouseAdapter {
     public void mouseDragged(MouseEvent me) {
         int row = me.getY() - 60 / 2;
         int col = me.getX() - 60 / 2;
-        System.out.println("dragging");
 
-//        if (this.piece != null) {
-//            this.piece.setX(col);
-//            this.piece.setY(row);
-//            this.boardController.repaint();
-//        }
+        if (this.piece != null) {
+            this.piece.setX(col);
+            this.piece.setY(row);
+            this.boardController.repaintBoardView();
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent me) {
-        this.toRow = me.getY() / 60;
-        this.toCol = me.getX() / 60;
-        
-        System.out.println(toRow + " x " + toCol);
+        if (this.piece != null) {
+            this.toRow = me.getY() / 60;
+            this.toCol = me.getX() / 60;
 
-//        Move move = new Move(toRow, toCol, piece);
+            Move move = new Move(toRow, toCol, piece);
 
-//        if (this.piece != null) {
-//            // If move is valid, then update the board and change X and Y positions
-//            // of the piece along with its row and column
-//            if (this.boardController.isValidMove(move)) {
-//                this.boardController.makeMove(fromRow, fromCol, toRow, toCol, piece);
-//                this.piece.setX(toCol * 60);
-//                this.piece.setY(toRow * 60);
-//                this.piece.updatePiece(toRow, toCol);
-//            } else {
-//                // Otherwise, move the piece back to it's original position
-//                this.piece.setX(fromCol * 60);
-//                this.piece.setY(fromRow * 60);
-//            }
-//            this.boardController.clearMoves();
-//            this.boardController.repaint();
-//        }
-//
-//        this.piece = null;
+            // If move is valid, then update the board and change X and Y positions
+            // of the piece along with its row and column
+            if (this.boardController.isValidMove(move)) {
+                this.boardController.makeMove(fromRow, fromCol, toRow, toCol, piece);
+                this.piece.setX(toCol * 60);
+                this.piece.setY(toRow * 60);
+                this.piece.updatePiece(toRow, toCol);
+            } else {
+                // Otherwise, move the piece back to it's original position
+                this.piece.setX(fromCol * 60);
+                this.piece.setY(fromRow * 60);
+            }
+
+            this.boardController.unHighlightMoves();
+            this.boardController.repaintBoardView();
+            
+            this.piece = null;
+        }
     }
 
     @Override

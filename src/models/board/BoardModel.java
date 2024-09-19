@@ -1,7 +1,7 @@
-
 package models.board;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import models.pieces.Bishop;
 import models.pieces.King;
 import models.pieces.Knight;
@@ -11,10 +11,10 @@ import models.pieces.Piece;
 import models.pieces.Queen;
 import models.pieces.Rook;
 
-
 public class BoardModel {
+
     private static final Piece[][] board = new Piece[8][8];
-    
+
     public BoardModel() {
         try {
             this.setupBoard();
@@ -22,7 +22,7 @@ public class BoardModel {
             System.out.println("[ERROR] " + ex.getMessage());
         }
     }
-    
+
     private void setupBoard() throws IOException {
         board[0][0] = new Rook(0, 0, "black");
         board[0][1] = new Knight(0, 1, "black");
@@ -58,23 +58,34 @@ public class BoardModel {
             }
         }
     }
-    
+
     public void makeMove(int fromRow, int fromCol, int toRow, int toCol, Piece piece) {
         board[toRow][toCol] = piece;
         board[fromRow][fromCol] = null;
     }
-    
-    public boolean isValidMove(Move move) {
-        // 1. If the selected move is not in the "moves" array (which is calculated
-        // by the piece class) then return false.
-//        if (!this.containsMove(move)) {
-//            return false;
-//        }
 
-        // 2. If the move is in the array, then get the piece at that position
+    private boolean containsMove(Move move, ArrayList<Move> moves) {
+        for (Move m : moves) {
+            if (m.toRow == move.toRow && m.toCol == move.toCol) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isValidMove(Move move) {
+        // 1. If the selected move is not in the "legalMoves" array then
+        // return false.
+        ArrayList<Move> legalMoves = move.piece.findMoves(board);
+        if (this.containsMove(move, legalMoves) == false) {
+            return false;
+        }
+
+        // 2. Get the piece at move's toRow, toCol position
         Piece piece = board[move.toRow][move.toCol];
 
-        // 3. If the position does not have any piece, then return true
+        // 3. If the position does not have any piece, return true
         if (piece == null) {
             return true;
         } // 4. If there's a piece, then check if it's enemy piece or not.
@@ -86,11 +97,11 @@ public class BoardModel {
         // 5. Otherwise, return false
         return false;
     }
-    
+
     public Piece[][] getBoard() {
         return board;
     }
-    
+
     public Piece getPiece(int row, int col) {
         return board[row][col];
     }
