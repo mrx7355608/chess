@@ -26,9 +26,13 @@ public class Rook extends Piece {
             // If there's a piece of our team blocking the way,
             // ignore the follow up moves
             Piece piece = board[i][this.col];
-            if (piece != null && piece.color.equals(this.color)) {
-                System.out.println("breaking... " + i);
-                break;
+            if (piece != null) {
+                if (piece.color.equals(this.color)) {
+                    break;
+                } else {
+                    moves.add(new Move(i, this.col, this));
+                    break;
+                }
             }
 
             moves.add(new Move(i, this.col, this));
@@ -37,27 +41,42 @@ public class Rook extends Piece {
         // For bottom moves
         for (int i = this.row + 1; i < 8; i++) {
             Piece piece = board[i][this.col];
-            if (piece != null && piece.color.equals(this.color)) {
-                break;
+            if (piece != null) {
+                if (piece.color.equals(this.color)) {
+                    break;
+                } else {
+                    moves.add(new Move(i, this.col, this));
+                    break;
+                }
             }
 
             moves.add(new Move(i, this.col, this));
         }
-        
+
         // For left side moves
         for (int i = this.col - 1; i >= 0; i--) {
-            Piece piece = board[i][this.col];
-            if (piece != null && piece.color.equals(this.color)) {
-                break;
+            Piece piece = board[this.row][i];
+            if (piece != null) {
+                if (piece.color.equals(this.color)) {
+                    break;
+                } else {
+                    moves.add(new Move(this.row, i, this));
+                    break;
+                }
             }
             moves.add(new Move(this.row, i, this));
         }
 
         // For right side moves
         for (int i = this.col + 1; i < 8; i++) {
-            Piece piece = board[i][this.col];
-            if (piece != null && piece.color.equals(this.color)) {
-                break;
+            Piece piece = board[this.row][i];
+            if (piece != null) {
+                if (piece.color.equals(this.color)) {
+                    break;
+                } else {
+                    moves.add(new Move(this.row, i, this));
+                    break;
+                }
             }
             moves.add(new Move(this.row, i, this));
         }
