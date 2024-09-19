@@ -4,6 +4,7 @@
  */
 package views;
 
+import controllers.InputHandler;
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
@@ -16,13 +17,19 @@ import models.pieces.Piece;
  * @author fawad
  */
 public class BoardView extends JPanel {
+
     private final int TILE_SIZE = 60;
     private final BoardModel boardModel;
-    
+
     public BoardView(BoardModel model) {
         this.boardModel = model;
     }
-    
+
+    public void addMouseListener(InputHandler inputHandler) {
+        super.addMouseListener(inputHandler);
+        super.addMouseMotionListener(inputHandler);
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         // Draw 8x8 grid
@@ -41,7 +48,6 @@ public class BoardView extends JPanel {
 //            g.setColor(Color.yellow);
 //            g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
 //        }
-
         // Draw pieces
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -51,5 +57,5 @@ public class BoardView extends JPanel {
                 }
             }
         }
-    }    
+    }
 }

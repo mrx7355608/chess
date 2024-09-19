@@ -1,5 +1,6 @@
 package chess.ui;
 
+import controllers.InputHandler;
 import models.pieces.Bishop;
 import models.pieces.King;
 import models.pieces.Knight;
@@ -32,7 +33,7 @@ public class BoardPanel extends JPanel {
     }
 
     private BoardPanel(Piece[][] pieces) {
-        MouseEventHandler mv = new MouseEventHandler();
+        InputHandler mv = new InputHandler();
         moves = new ArrayList();
         
         this.pieces = pieces;

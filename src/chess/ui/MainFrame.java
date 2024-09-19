@@ -5,6 +5,7 @@
 package chess.ui;
 
 import controllers.BoardController;
+import controllers.InputHandler;
 import javax.swing.JFrame;
 import models.board.BoardModel;
 import views.BoardView;
@@ -22,6 +23,9 @@ public class MainFrame extends JFrame {
         BoardModel model = new BoardModel();
         BoardView view = new BoardView(model);
         BoardController controller = new BoardController(model, view);
+        
+        InputHandler inputHandler = new InputHandler(controller);
+        view.addMouseListener(inputHandler); // Attach input handler to BoardView JPanel
         
         this.setTitle("Chess");
         this.setSize(GAME_WIDTH, GAME_HEIGHT);

@@ -5,6 +5,7 @@
 package controllers;
 
 import models.board.BoardModel;
+import models.pieces.Piece;
 import views.BoardView;
 
 /**
@@ -20,6 +21,8 @@ public class BoardController {
         this.boardView = view;
     }
     
-    
+    public Piece getPiece(int row, int col) {
+        return this.boardModel.getPiece(row, col);
+    }
     
 }
