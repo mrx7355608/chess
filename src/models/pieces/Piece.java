@@ -54,6 +54,15 @@ public class Piece {
         this.col = newCol;
     };
     
+    protected boolean isOutsideTheBoard(int rowOrCol) {
+        return rowOrCol < 0 || rowOrCol > 7;
+    }
+    
+    protected boolean isEnemyPiece(Piece[][] board, int row, int col) {
+        Piece piece = board[row][col];
+         return piece.color.equals(this.color) == false;
+    }
+    
     public void draw(Graphics g) {
         g.drawImage(this.image, x, y, null);
     }
