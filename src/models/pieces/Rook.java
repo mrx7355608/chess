@@ -21,66 +21,47 @@ public class Rook extends Piece {
     public ArrayList<Move> findMoves(Piece[][] board) {
         ArrayList<Move> moves = new ArrayList();
 
-        // For top moves
-        for (int i = this.row - 1; i >= 0; i--) {
-            // If there's a piece of our team blocking the way,
-            // ignore the follow up moves
-            Piece piece = board[i][this.col];
-            if (piece != null) {
-                if (piece.color.equals(this.color)) {
-                    break;
-                } else {
-                    moves.add(new Move(i, this.col, this));
-                    break;
-                }
-            }
-
-            moves.add(new Move(i, this.col, this));
-        }
-
-        // For bottom moves
-        for (int i = this.row + 1; i < 8; i++) {
-            Piece piece = board[i][this.col];
-            if (piece != null) {
-                if (piece.color.equals(this.color)) {
-                    break;
-                } else {
-                    moves.add(new Move(i, this.col, this));
-                    break;
-                }
-            }
-
-            moves.add(new Move(i, this.col, this));
-        }
-
-        // For left side moves
-        for (int i = this.col - 1; i >= 0; i--) {
-            Piece piece = board[this.row][i];
-            if (piece != null) {
-                if (piece.color.equals(this.color)) {
-                    break;
-                } else {
-                    moves.add(new Move(this.row, i, this));
-                    break;
-                }
-            }
-            moves.add(new Move(this.row, i, this));
-        }
-
-        // For right side moves
-        for (int i = this.col + 1; i < 8; i++) {
-            Piece piece = board[this.row][i];
-            if (piece != null) {
-                if (piece.color.equals(this.color)) {
-                    break;
-                } else {
-                    moves.add(new Move(this.row, i, this));
-                    break;
-                }
-            }
-            moves.add(new Move(this.row, i, this));
-        }
-
+        this.calc(col, row, board, moves, "top");
+        this.calc(col, row, board, moves, "down");
+        this.calc(col, row, board, moves, "left");
+        this.calc(col, row, board, moves, "right");
+        
         return moves;
+    }
+
+    public void calc(int col, int row, Piece[][] board, ArrayList<Move> moves, String direction) {
+        switch (direction) {
+            case "top" ->
+                row -= 1;
+
+            case "left" ->
+                col -= 1;
+
+            case "right" ->
+                col += 1;
+
+            case "down" ->
+                row += 1;
+
+            default ->
+                row -= 1;
+        }
+
+        // 1. If either row or col are outside the board, end recursion
+        if (this.isOutsideTheBoard(col) || this.isOutsideTheBoard(row)) {
+            return;
+        }
+
+        // 2. If the tile is empty then, add those coordinates in moves.
+        Piece p = board[row][col];
+        if (p == null) {
+            moves.add(new Move(row, col, this));
+
+            // Find other possible moves recursively
+            this.calc(col, row, board, moves, direction);
+
+        } else if (this.isEnemyPiece(board, row, col)) {
+            moves.add(new Move(row, col, this));
+        }
     }
 }
