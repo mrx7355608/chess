@@ -48,8 +48,8 @@ public class BoardView extends JPanel {
             for (Move move : highlightMoves) {
                 int x = move.toCol * TILE_SIZE;
                 int y = move.toRow * TILE_SIZE;
-                g.setColor(Color.yellow);
-                g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
+                g.setColor(new Color(230, 230, 0, 170));
+                g.fillOval(x, y, TILE_SIZE, TILE_SIZE);
             }
         }
 
