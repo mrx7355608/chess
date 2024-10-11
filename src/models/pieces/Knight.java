@@ -52,6 +52,9 @@ public class Knight extends Piece {
             Move move = iterator.next();
             if (move.toRow < 0 || move.toRow > 7 || move.toCol < 0 || move.toCol > 7) {
                 iterator.remove();
+            } else if (board[move.toRow][move.toCol] != null 
+                    && this.isEnemyPiece(board, move.toRow, move.toCol) == false) {
+                iterator.remove();
             }
         }
 
