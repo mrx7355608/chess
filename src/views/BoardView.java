@@ -23,8 +23,6 @@ public class BoardView extends JPanel {
     private final int TILE_SIZE = 60;
     private final BoardModel boardModel;
     private ArrayList<Move> highlightMoves = new ArrayList();
-    private int checkTileRow = -1;
-    private int checkTileCol = -1;
 
     public BoardView(BoardModel model) {
         this.boardModel = model;
@@ -67,26 +65,17 @@ public class BoardView extends JPanel {
         }
         
         // Highlight check
-        if (checkTileRow > -1 && checkTileCol > -1) {
-            this.highlightCheck(g);
+        if (this.boardModel.isBlackInCheck()) {
+            int[] kingPos = this.boardModel.getBlackKingPosition();
+            int x = kingPos[1] * TILE_SIZE;
+            int y = kingPos[0] * TILE_SIZE;
+            g.setColor(new Color(255,0,0,150));
+            g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
         }
     }
 
     public void setHighlightMoves(ArrayList<Move> highlightMoves) {
         this.highlightMoves = highlightMoves;
     }
-    
-    public void setCheckCoordinates(int row, int col) {
-        this.checkTileRow = row;
-        this.checkTileCol = col;
-    }
-    
-    public void highlightCheck(Graphics g) {
-        // 1. Evaluate X and Y positions based on row & col
-        int x = checkTileCol * TILE_SIZE;
-        int y = checkTileRow * TILE_SIZE;
-        
-        g.setColor(new Color(255, 0,  0, 140));
-        g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
-    }
+
 }

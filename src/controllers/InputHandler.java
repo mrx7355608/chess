@@ -74,9 +74,7 @@ public class InputHandler extends MouseAdapter {
                 this.piece.setY(toRow * 60);
                 this.piece.updatePiece(toRow, toCol);
                 
-                if (this.boardController.isKingInCheck("black")) {
-                    this.boardController.displayCheck("black");
-                }
+                this.boardController.detectCheck("black");
             } else {
                 // Otherwise, move the piece back to it's original position
                 this.piece.setX(fromCol * 60);

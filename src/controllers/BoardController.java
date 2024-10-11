@@ -6,7 +6,6 @@ package controllers;
 
 import java.util.ArrayList;
 import models.board.BoardModel;
-import models.pieces.King;
 import models.pieces.Move;
 import models.pieces.Piece;
 import views.BoardView;
@@ -56,68 +55,41 @@ public class BoardController {
         this.boardView.repaint();
     }
 
-    // FIX ME: write a better logic
-    public boolean isKingInCheck(String color) {
-        // 1. Find king coordinates
-        int kingRow = 0;
-        int kingCol = 0;
+    public void detectCheck(String color) {
+        // An array containing king's position
+        // 0 index -> row
+        // 1 index -> col
+        int[] kingPosition;
+        ArrayList<Piece> enemyPieces;
 
-        Piece[][] board = this.boardModel.getBoard();
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                Piece piece = board[i][j];
-                if (piece != null && piece.color.equals(color) && piece.getClass() == King.class) {
-                    kingRow = i;
-                    kingCol = j;
-                }
-            }
+        // 1. Get king coordinates from board model along with it's enemy pieces
+        if (color.equals("white")) {
+            kingPosition = this.boardModel.getWhiteKingPosition();
+            enemyPieces = this.boardModel.getBlackPieces();
+        } else {
+            kingPosition = this.boardModel.getBlackKingPosition();
+            enemyPieces = this.boardModel.getWhitePieces();
         }
-        
-        System.out.println("King coordinates found");
-        
+
         // 2. Check if moves of any enemy piece collides with King's position
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                Piece piece = board[i][j];
-                
-                if (piece == null) continue;
-                
-                // Ignore ally pieces, as they cannot trigger a check on their
-                // own king
-                if (piece.color.equals(color)) continue;
-                
-                // Next, find moves of the piece
-                ArrayList<Move> moves = piece.findMoves(board);
-                
-                // If, a move overlaps king's coordinates, return true because
-                // this is a check
-                for (Move move : moves) {
-                    if (move.toRow == kingRow && move.toCol == kingCol) {
-                        return true;
-                    }
-                }
-            }
-        }
-        
-        return false;
-    }
-
-    public void displayCheck(String color) {
-        // 1. Find king coordinates
-        int kingRow = 0;
-        int kingCol = 0;
-
         Piece[][] board = this.boardModel.getBoard();
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                Piece piece = board[i][j];
-                if (piece != null && piece.color.equals(color) && piece.getClass() == King.class) {
-                    kingRow = i;
-                    kingCol = j;
+        
+        for (Piece enemyPiece : enemyPieces) {
+
+            // Find enemy piece moves
+            ArrayList<Move> moves = enemyPiece.findMoves(board);
+
+            // If, a move overlaps king's coordinates, return true because
+            // this is a check
+            for (Move move : moves) {
+                if (move.toRow == kingPosition[0] && move.toCol == kingPosition[1]) {
+                    this.boardModel.setIsBlackInCheck(true);
+                    return;
+                } else {
+                    this.boardModel.setIsBlackInCheck(false);
                 }
             }
         }
-        
-        this.boardView.setCheckCoordinates(kingRow, kingCol);
     }
+
 }
