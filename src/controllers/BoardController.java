@@ -53,7 +53,7 @@ public class BoardController {
         this.boardModel.makeMove(fromRow, fromCol, toRow, toCol, piece);
         
         // Switch turn
-        this.setTurn(this.turn.equals("white") ? "black": "white");
+        this.turn = this.turn.equals("white") ? "black": "white";
     }
 
     public void repaintBoardView() {
@@ -90,19 +90,16 @@ public class BoardController {
                 if (move.toRow == kingPosition[0] && move.toCol == kingPosition[1]) {
                     this.boardModel.setIsBlackInCheck(true);
                     return;
-                } else {
-                    this.boardModel.setIsBlackInCheck(false);
                 }
             }
+            
+            this.boardModel.setIsBlackInCheck(false);
         }
     }
 
-    public String getTurn() {
-        return turn;
-    }
-
-    public void setTurn(String turn) {
-        this.turn = turn;
+    
+    public boolean isPlayerTurn(String pieceColor) {
+        return pieceColor.equals(this.turn);
     }
 
 }

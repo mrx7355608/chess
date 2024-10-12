@@ -39,8 +39,7 @@ public class InputHandler extends MouseAdapter {
         this.piece = this.boardController.getPiece(row, col);
         
         // Prevent user from making move if it's not his turn
-        String currentTurn = this.boardController.getTurn();
-        if (currentTurn.equals(piece.color) == false) {
+        if (this.boardController.isPlayerTurn(piece.color) == false) {
             this.piece = null;
             return;
         }
