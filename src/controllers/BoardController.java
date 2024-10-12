@@ -18,10 +18,12 @@ public class BoardController {
 
     private final BoardModel boardModel;
     private final BoardView boardView;
+    private String turn;
 
     public BoardController(BoardModel model, BoardView view) {
         this.boardModel = model;
         this.boardView = view;
+        this.turn = "white";
     }
 
     public Piece getPiece(int row, int col) {
@@ -49,6 +51,9 @@ public class BoardController {
 
     public void makeMove(int fromRow, int fromCol, int toRow, int toCol, Piece piece) {
         this.boardModel.makeMove(fromRow, fromCol, toRow, toCol, piece);
+        
+        // Switch turn
+        this.setTurn(this.turn.equals("white") ? "black": "white");
     }
 
     public void repaintBoardView() {
@@ -90,6 +95,14 @@ public class BoardController {
                 }
             }
         }
+    }
+
+    public String getTurn() {
+        return turn;
+    }
+
+    public void setTurn(String turn) {
+        this.turn = turn;
     }
 
 }
