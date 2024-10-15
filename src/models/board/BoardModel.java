@@ -71,13 +71,13 @@ public class BoardModel {
 
         // Store pieces in their specific arrays so that it's easy
         // to retrieve them in detectCheck() method logic
-        blackPieces.add(blackRook2);
-        blackPieces.add(blackRook2);
-        blackPieces.add(blackRook2);
-        blackPieces.add(blackRook2);
-        blackPieces.add(blackRook2);
-        blackPieces.add(blackRook2);
-        blackPieces.add(blackRook2);
+        blackPieces.add(blackRook1);
+        blackPieces.add(blackKnight1);
+        blackPieces.add(blackBishop1);
+        blackPieces.add(blackQueen);
+        blackPieces.add(blackKing);
+        blackPieces.add(blackBishop2);
+        blackPieces.add(blackKnight2);
         blackPieces.add(blackRook2);
 
         whitePieces.add(whiteRook1);

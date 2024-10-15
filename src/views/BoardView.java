@@ -71,6 +71,12 @@ public class BoardView extends JPanel {
             int y = kingPos[0] * TILE_SIZE;
             g.setColor(new Color(255,0,0,150));
             g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
+        } else if (this.boardModel.isWhiteInCheck()) {
+            int[] kingPos = this.boardModel.getWhiteKingPosition();
+            int x = kingPos[1] * TILE_SIZE;
+            int y = kingPos[0] * TILE_SIZE;
+            g.setColor(new Color(255,0,0,150));
+            g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
         }
     }
 

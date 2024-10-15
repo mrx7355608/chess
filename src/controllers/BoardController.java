@@ -51,9 +51,9 @@ public class BoardController {
 
     public void makeMove(int fromRow, int fromCol, int toRow, int toCol, Piece piece) {
         this.boardModel.makeMove(fromRow, fromCol, toRow, toCol, piece);
-        
+
         // Switch turn
-        this.turn = this.turn.equals("white") ? "black": "white";
+        this.turn = this.turn.equals("white") ? "black" : "white";
     }
 
     public void repaintBoardView() {
@@ -78,9 +78,8 @@ public class BoardController {
 
         // 2. Check if moves of any enemy piece collides with King's position
         Piece[][] board = this.boardModel.getBoard();
-        
-        for (Piece enemyPiece : enemyPieces) {
 
+        for (Piece enemyPiece : enemyPieces) {
             // Find enemy piece moves
             ArrayList<Move> moves = enemyPiece.findMoves(board);
 
@@ -88,18 +87,31 @@ public class BoardController {
             // this is a check
             for (Move move : moves) {
                 if (move.toRow == kingPosition[0] && move.toCol == kingPosition[1]) {
-                    this.boardModel.setIsBlackInCheck(true);
-                    return;
+                    System.out.println(color + " king is in check");
+                    if (color.equals("white")) {
+                        this.boardModel.setIsWhiteInCheck(true);
+                        return;
+                    } else {
+                        this.boardModel.setIsBlackInCheck(true);
+                        return;
+                    }
                 }
             }
-            
-            this.boardModel.setIsBlackInCheck(false);
+
+            if (color.equals("white")) {
+                this.boardModel.setIsWhiteInCheck(false);
+            } else {
+                this.boardModel.setIsBlackInCheck(false);
+            }
         }
     }
 
-    
     public boolean isPlayerTurn(String pieceColor) {
         return pieceColor.equals(this.turn);
+    }
+
+    public String getTurn() {
+        return turn;
     }
 
 }

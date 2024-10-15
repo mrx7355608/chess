@@ -37,7 +37,7 @@ public class InputHandler extends MouseAdapter {
         int col = me.getX() / 60;
 
         this.piece = this.boardController.getPiece(row, col);
-        
+
         // Prevent user from making move if it's not his turn
         if (this.boardController.isPlayerTurn(piece.color) == false) {
             this.piece = null;
@@ -79,8 +79,12 @@ public class InputHandler extends MouseAdapter {
                 this.piece.setX(toCol * 60);
                 this.piece.setY(toRow * 60);
                 this.piece.updatePiece(toRow, toCol);
-                
-                this.boardController.detectCheck("black");
+
+                if (this.boardController.getTurn().equals("white")) {
+                    this.boardController.detectCheck("white");
+                } else {
+                    this.boardController.detectCheck("black");
+                }
             } else {
                 // Otherwise, move the piece back to it's original position
                 this.piece.setX(fromCol * 60);
@@ -89,7 +93,7 @@ public class InputHandler extends MouseAdapter {
 
             this.boardController.unHighlightMoves();
             this.boardController.repaintBoardView();
-            
+
             this.piece = null;
         }
     }
